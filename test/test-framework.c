@@ -1,20 +1,44 @@
 #include <stdio.h>
 #include "test-framework.h"
 
+int reporting = 1;
+
+void setReporting(int value) {
+    reporting = value;
+}
+
 void beginTest(char * testName) {
-    printf(LINEBREAK);
-    printf("Beginning %s tests:\n\n", testName);
+#ifdef SIMPLE_REPORT
+    setReporting(0);
+#endif
+    if (reporting) {
+        printf(LINEBREAK);
+        printf("Beginning %s tests:\n\n", testName);
+    }
 }
 
 void endTest(char * testName) {
-    printf("\nEnd of %s tests\n", testName);
-    printf(LINEBREAK);
+    if (reporting) {
+        printf("\nEnd of %s tests\n", testName);
+        printf(LINEBREAK);
+    }
+#ifdef SIMPLE_REPORT
+    setReporting(1);
+#endif
 }
 
 int assertTrue(int expression, char * testName) {
-    return (expression ? (printf("%s passed\n", testName) && 0) : printf("%s failed\n", testName)) == 0;
+    if (reporting) {
+        return (expression ? (printf("%s passed\n", testName) && 0) : printf("%s failed\n", testName)) == 0;
+    } else {
+        return expression;
+    }
 }
 
 int assertFalse(int expression, char *testName) {
-    return (expression ? printf("%s failed\n", testName) : (printf("%s passed\n", testName) && 0)) == 0;
+    if (reporting) {
+        return (expression ? printf("%s failed\n", testName) : (printf("%s passed\n", testName) && 0)) == 0;
+    } else {
+        return !expression;
+    }
 }

@@ -24,10 +24,12 @@ int main(void) {
 
 
 void printList(char * title, void (*consumer)(void *)) {
+#ifndef SIMPLE_REPORT
     printf(LINEBREAK);
     printf("%s\n", title);
     iterate(list, consumer);
     printf(LINEBREAK);
+#endif
 }
 
 unsigned long initIntList() {
@@ -74,7 +76,9 @@ void setup() {
 
 //initialise several different data types using the same list (which is cleared at each function call) to
 //demonstrate that the list is generic
-void testMultipleDataTypes() {
+int testMultipleDataTypes() {
+#ifndef SIMPLE_REPORT
+    printf("TEST DATA:\n");
     initIntList();
     printList("Integer List", printInt);
     initFloatList();
@@ -83,6 +87,8 @@ void testMultipleDataTypes() {
     printList("String List", printString);
     initLongLongList();
     printList("LongLong List", printLLong);
+#endif
+    return 1;
 }
 
 int testSize() {
@@ -116,6 +122,7 @@ int testIsEmpty() {
     //ensure that isEmpty returns true
     result = assertTrue(isEmpty(list), "emptyList");
     //populate the list and check isn't empty
+    initLongLongList();
     result = assertFalse(isEmpty(list), "filledList") && result;
     //clear list again and ensure is empty
     clear(list);
@@ -129,7 +136,20 @@ int testIsEmpty() {
 }
 
 void runTests() {
+    printf(LINEBREAK);
+    printf("BEGINNING TESTS");
+    printf(LINEBREAK);
+    int result;
     testMultipleDataTypes();
-    testSize();
-    testIsEmpty();
+    result = assertTrue(testSize(), "Size");
+    result = assertTrue(testIsEmpty(), "isEmpty") && result;
+    if (result) {
+        printf(LINEBREAK);
+        printf("ALL TESTS PASSED");
+        printf(LINEBREAK);
+    } else {
+        printf(LINEBREAK);
+        printf("TESTS FAILED (SEE ABOVE)");
+        printf(LINEBREAK);
+    }
 }
