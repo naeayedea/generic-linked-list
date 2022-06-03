@@ -88,13 +88,7 @@ int isEmpty(List *list) {
 
 //returns number of elements in the list
 int size(List *list) {
-    int size = 0;
-    Node *current = list->head;
-    while (current != NULL) {
-        size++;
-        current = current->next;
-    }
-    return size;
+    return list->size;
 }
 
 //clear all elements in the list
