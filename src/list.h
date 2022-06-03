@@ -17,6 +17,6 @@ void push(List *list, void *data, unsigned long data_size);
 void append(List *list, void *data, unsigned long data_size);
 void iterate(List *list, void (*function)(void *));
 int isEmpty(List *list);
-int size(List *list);
+unsigned long long size(List *list);
 void clear(List *list);
 void *rem(List *list);

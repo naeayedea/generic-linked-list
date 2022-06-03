@@ -87,7 +87,7 @@ int isEmpty(List *list) {
 }
 
 //returns number of elements in the list
-int size(List *list) {
+unsigned long long size(List *list) {
     return list->size;
 }
 
