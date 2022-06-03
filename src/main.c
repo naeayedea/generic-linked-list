@@ -5,8 +5,7 @@
 
 
 int main (void) {
-    Node *head = NULL;
-    List list = &head;
+    List *list = newList();
     int i;
 
     //create list of integers

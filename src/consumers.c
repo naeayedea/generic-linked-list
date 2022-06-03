@@ -1,5 +1,6 @@
 #include "consumers.h"
 #include "list.h"
+#include <stdio.h>
 
 void sumListConsumer(void *data);
 
@@ -16,7 +17,7 @@ void printFloat(void *data) {
 }
 
 int result;
-int sumList(List list) {
+int sumList(List *list) {
     result = 0;
     iterate(list, sumListConsumer);
     return result;
