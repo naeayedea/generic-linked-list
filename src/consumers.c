@@ -16,6 +16,10 @@ void printFloat(void *data) {
     printf("%.2f ", *(float *)data);
 }
 
+void printLLong(void *data) {
+    printf("%lld ", *(long long *)data);
+}
+
 int result;
 int sumList(List *list) {
     result = 0;

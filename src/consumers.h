@@ -10,4 +10,5 @@ struct NODE {
 void printString(void *data);
 void printInt(void *data);
 void printFloat(void *data);
+void printLLong(void *data);
 int sumList(List *list);
