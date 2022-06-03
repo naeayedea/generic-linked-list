@@ -28,41 +28,45 @@ void printList(char * title, void (*consumer)(void *)) {
     printf("\n----------------\n");
 }
 
-void initIntList() {
+unsigned long initIntList() {
     clear(list);
-    int n = sizeof(iData) / sizeof(iData[0]) - 1;
-    for (; n>=0; n--) {
-        push(list, &iData[n], sizeof(iData[n]));
+    int n = sizeof(iData) / sizeof(iData[0]);
+    for (; n > 0; n--) {
+        push(list, &iData[n - 1], sizeof(iData[n - 1]));
     }
     printList("Integer List", printInt);
+    return n;
 }
 
-void initFloatList() {
+unsigned long initFloatList() {
     clear(list);
-    int n = sizeof(fData) / sizeof(fData[0]) - 1;
-    for (; n>=0; n--) {
+    int n = sizeof(fData) / sizeof(fData[0]);
+    for (; n > 0; n--) {
         push(list, &fData[n], sizeof(fData[n]));
     }
     printList("Float List", printFloat);
+    return n;
 }
 
-void initStringList() {
+unsigned long initStringList() {
     clear(list);
-    int n = sizeof(sData) / sizeof(sData[0]) - 1;
-    for (; n>=0; n--) {
+    int n = sizeof(sData) / sizeof(sData[0]);
+    for (; n > 0; n--) {
         push(list, sData[n], strlen(sData[n])+1);
 
     }
     printList("String List", printString);
+    return n;
 }
 
-void initLongLongList() {
+unsigned long initLongLongList() {
     clear(list);
-    int n = sizeof(llData) / sizeof(llData[0]) - 1;
-    for (; n>=0; n--) {
+    int n = sizeof(llData) / sizeof(llData[0]);
+    for (; n > 0; n--) {
         push(list, &llData[n], sizeof(llData[n]));
     }
     printList("LongLong List", printLLong);
+    return n;
 }
 
 void setup() {
@@ -71,17 +75,18 @@ void setup() {
 }
 
 void runTests() {
+    size_t count;
     //test ints
-    initIntList();
+    count = initIntList();
     //print the result of the sumList consumer
     printf("\nSum: %d", sumList(list));
 
     //test floats
-    initFloatList();
+    count = initFloatList();
 
     //test strings
-    initStringList();
+    count = initStringList();
 
     //test long longs
-    initLongLongList();
+    count = initLongLongList();
 }
