@@ -88,11 +88,22 @@ void testMultipleDataTypes() {
 int testSize() {
     int result;
     beginTest("size");
+    //check each list and ensure that the reported size is the number of elements added by the init function
     result = assertTrue(initIntList() == size(list), "intList");
     result = assertTrue(initFloatList() == size(list), "floatList") && result;
     result = assertTrue(initStringList() == size(list), "stringList") && result;
     result = assertTrue(initLongLongList() == size(list), "longlongList") && result;
+    size_t initialSize = initLongLongList();
+    //remove value from list and check that size is properly decremented
+    rem(list);
+    result = assertTrue(initialSize - 1 == size(list), "checkRemoval") && result;
+    //clear list and check that size is 0 after
+    clear(list);
+    result = assertTrue(size(list) == 0, "checkClear") && result;
     endTest("size");
+    //re-add entry to list and check size is 1
+    push(list, &iData[0], sizeof(sData[0]));
+    result = assertTrue(size(list) == 1, "checkPush") && result;
     return result;
 }
 
