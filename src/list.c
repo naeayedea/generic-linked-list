@@ -113,6 +113,7 @@ void *rem(List *list) {
         Node *next = list->head-> next;
         delete_node(list->head);
         list->head = next;
+        list->size--;
         return result;
     }
 }
