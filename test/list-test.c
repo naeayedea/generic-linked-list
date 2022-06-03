@@ -100,14 +100,36 @@ int testSize() {
     //clear list and check that size is 0 after
     clear(list);
     result = assertTrue(size(list) == 0, "checkClear") && result;
-    endTest("size");
     //re-add entry to list and check size is 1
     push(list, &iData[0], sizeof(sData[0]));
     result = assertTrue(size(list) == 1, "checkPush") && result;
+
+    endTest("size");
+    return result;
+}
+
+int testIsEmpty() {
+    int result;
+    beginTest("isEmpty");
+    //ensure list is empty for test
+    clear(list);
+    //ensure that isEmpty returns true
+    result = assertTrue(isEmpty(list), "emptyList");
+    //populate the list and check isn't empty
+    result = assertFalse(isEmpty(list), "filledList") && result;
+    //clear list again and ensure is empty
+    clear(list);
+    result = assertTrue(isEmpty(list), "clearedList") && result;
+    //finally, add an entry and ensure isn't empty
+    push(list, &iData[0], sizeof(sData[0]));
+    result = assertFalse(isEmpty(list), "singleElementList") && result;
+
+    endTest("isEmpty");
     return result;
 }
 
 void runTests() {
     testMultipleDataTypes();
     testSize();
+    testIsEmpty();
 }
