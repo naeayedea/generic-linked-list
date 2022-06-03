@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 11)
 include_directories(src)
 
 add_executable(generic_linked_list src/main.c src/list.c src/consumers.c)
-add_executable(list-tests test/list-test.c src/list.c src/consumers.c)
+add_executable(list-tests test/test-framework.c test/list-test.c src/list.c src/consumers.c)

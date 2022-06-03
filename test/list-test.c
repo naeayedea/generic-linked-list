@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <consumers.h>
 #include <string.h>
+#include "test-framework.h"
 
 List *list;
 
@@ -21,51 +22,48 @@ int main(void) {
     return 0;
 }
 
+
 void printList(char * title, void (*consumer)(void *)) {
-    printf("\n----------------\n");
+    printf(LINEBREAK);
     printf("%s\n", title);
     iterate(list, consumer);
-    printf("\n----------------\n");
+    printf(LINEBREAK);
 }
 
 unsigned long initIntList() {
     clear(list);
     int n = sizeof(iData) / sizeof(iData[0]);
-    for (; n > 0; n--) {
-        push(list, &iData[n - 1], sizeof(iData[n - 1]));
+    for (int i = 0; i < n; i++) {
+        push(list, &iData[i], sizeof(iData[i]));
     }
-    printList("Integer List", printInt);
     return n;
 }
 
 unsigned long initFloatList() {
     clear(list);
     int n = sizeof(fData) / sizeof(fData[0]);
-    for (; n > 0; n--) {
-        push(list, &fData[n], sizeof(fData[n]));
+    for (int i = 0; i < n; i++) {
+        push(list, &fData[i], sizeof(fData[i]));
     }
-    printList("Float List", printFloat);
     return n;
 }
 
 unsigned long initStringList() {
     clear(list);
     int n = sizeof(sData) / sizeof(sData[0]);
-    for (; n > 0; n--) {
-        push(list, sData[n], strlen(sData[n])+1);
+    for (int i = 0; i < n; i++) {
+        push(list, sData[i], strlen(sData[i])+1);
 
     }
-    printList("String List", printString);
     return n;
 }
 
 unsigned long initLongLongList() {
     clear(list);
     int n = sizeof(llData) / sizeof(llData[0]);
-    for (; n > 0; n--) {
-        push(list, &llData[n], sizeof(llData[n]));
+    for (int i = 0; i < n; i++) {
+        push(list, &llData[i], sizeof(llData[i]));
     }
-    printList("LongLong List", printLLong);
     return n;
 }
 
@@ -74,19 +72,31 @@ void setup() {
     list = newList();
 }
 
+//initialise several different data types using the same list (which is cleared at each function call) to
+//demonstrate that the list is generic
+void testMultipleDataTypes() {
+    initIntList();
+    printList("Integer List", printInt);
+    initFloatList();
+    printList("Float List", printFloat);
+    initStringList();
+    printList("String List", printString);
+    initLongLongList();
+    printList("LongLong List", printLLong);
+}
+
+int testSize() {
+    int result;
+    beginTest("size");
+    result = assertTrue(initIntList() == size(list), "intList");
+    result = assertTrue(initFloatList() == size(list), "floatList") && result;
+    result = assertTrue(initStringList() == size(list), "stringList") && result;
+    result = assertTrue(initLongLongList() == size(list), "longlongList") && result;
+    endTest("size");
+    return result;
+}
+
 void runTests() {
-    size_t count;
-    //test ints
-    count = initIntList();
-    //print the result of the sumList consumer
-    printf("\nSum: %d", sumList(list));
-
-    //test floats
-    count = initFloatList();
-
-    //test strings
-    count = initStringList();
-
-    //test long longs
-    count = initLongLongList();
+    testMultipleDataTypes();
+    testSize();
 }
